@@ -1,0 +1,26 @@
+# This is the name of the benchmark. It's recommended to keep this in sync with
+# name of this file, adding extension `.hf.yaml`.
+name: single-request-quarkus
+# We must define at least one HTTP target, in this case it becomes a default
+# for all HTTP requests.
+http:
+  host: http://localhost:8080
+  sharedConnections: 500
+# Simulation consists of phases - potentially independent workloads.
+# We'll discuss phases more in detail in next quickstarts.
+threads: 2
+phases:
+# `example` is the name of the single phase in this benchmark.
+- browsingUser:
+    # This is the default type of workload, starting constant number of users
+    # each second. Note that we don't speak about 'requests per second' as
+    # the scenario may issue any number of requests.
+    constantRate:
+      duration: 10s
+      usersPerSec: 500
+      scenario:
+      # Browse is the name of our only sequence. We will avoid steps generating
+      # random data for browsing for the sake of brevity.
+      - browse:
+        - httpRequest:
+            GET: /resteasy-jackson/quarks
