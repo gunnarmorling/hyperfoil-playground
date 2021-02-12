@@ -5,7 +5,7 @@ name: single-request-quarkus
 # for all HTTP requests.
 http:
   host: http://localhost:8080
-  sharedConnections: 500
+  sharedConnections: 2000
 # Simulation consists of phases - potentially independent workloads.
 # We'll discuss phases more in detail in next quickstarts.
 threads: 2
@@ -16,11 +16,12 @@ phases:
     # each second. Note that we don't speak about 'requests per second' as
     # the scenario may issue any number of requests.
     constantRate:
-      duration: 10s
-      usersPerSec: 500
+      duration: 30s
+      usersPerSec: 200
+      maxSessions: 2000
       scenario:
       # Browse is the name of our only sequence. We will avoid steps generating
       # random data for browsing for the sake of brevity.
       - browse:
         - httpRequest:
-            GET: /resteasy-jackson/quarks
+            GET: /resteasy-jackson/quarks/faq
